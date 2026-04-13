@@ -1,0 +1,46 @@
+"use client";
+
+import { useState } from "react";
+
+export default function Home() {
+  const [page, setPage] = useState(1);
+  const [side, setSide] = useState<"R" | "V">("R");
+
+  const imgSrc = `/codex/${side}-${page}.jpg`;
+
+  return (
+    <div style={{ background: "black", color: "white", height: "100vh" }}>
+      
+      <h2 style={{ textAlign: "center", padding: 10 }}>
+        Visualizzatore del Codex
+      </h2>
+
+      {/* IMMAGINE */}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img
+          src={imgSrc}
+          style={{ maxHeight: "80vh", maxWidth: "90%" }}
+          onError={(e) => {
+            console.log("Immagine non trovata:", imgSrc);
+          }}
+        />
+      </div>
+
+      {/* CONTROLLI */}
+      <div style={{ display: "flex", justifyContent: "center", gap: 10, padding: 20 }}>
+        <button onClick={() => setPage(p => Math.max(1, p - 1))}>
+          ⬅️
+        </button>
+
+        <button onClick={() => setSide(s => (s === "R" ? "V" : "R"))}>
+          🔄 Fronte/Retro
+        </button>
+
+        <button onClick={() => setPage(p => p + 1)}>
+          ➡️
+        </button>
+      </div>
+
+    </div>
+  );
+}
