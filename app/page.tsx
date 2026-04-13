@@ -6,9 +6,16 @@ export default function Home() {
   const [section, setSection] = useState("home");
   const [page, setPage] = useState(1);
   const [side, setSide] = useState<"R" | "V">("R");
+  const [flipH, setFlipH] = useState(false); // flip orizzontale
+  const [flipV, setFlipV] = useState(false); // flip verticale
 
   const MAX_PAGE = 120;
   const imgSrc = `/codex/${side}-${page}.jpg`;
+
+  // Calcolo delle classi di flip
+  const imgClass = `max-h-[80vh] rounded-2xl border border-[#d6c9b8] transform ${
+    flipH ? "scale-x-[-1]" : ""
+  } ${flipV ? "scale-y-[-1]" : ""}`;
 
   return (
     <div className="min-h-screen bg-[#f5f1e8] text-[#2b2b2b]">
@@ -16,13 +23,11 @@ export default function Home() {
       {/* ================= HOME ================= */}
       {section === "home" && (
         <div className="min-h-screen p-10">
-
-         <h1 className="text-center text-4xl tracking-[0.4em] mb-14 font-light text-[#3a2f24]">
-  3AQ LABORATORIO LEONARDO
-</h1>
+          <h1 className="text-center text-4xl tracking-[0.4em] mb-14 font-light text-[#3a2f24]">
+            3AQ LABORATORIO LEONARDO
+          </h1>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-
             <div onClick={() => setSection("codex")} className="cursor-pointer bg-white p-3 rounded-2xl border border-[#d6c9b8]">
               <img src="/museum/codex.jpg" className="h-64 w-full object-cover rounded-xl" />
               <p className="mt-3">Codex Atlantico</p>
@@ -42,7 +47,6 @@ export default function Home() {
               <img src="/museum/bridge.jpg" className="h-64 w-full object-cover rounded-xl" />
               <p className="mt-3">Ponte Autoportante</p>
             </div>
-
           </div>
         </div>
       )}
@@ -58,7 +62,7 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex items-center justify-center p-6">
-            <img src={imgSrc} className="max-h-[80vh] rounded-2xl border border-[#d6c9b8]" />
+            <img src={imgSrc} className={imgClass} />
           </div>
 
           <div className="p-4 flex justify-center gap-3 border-t border-[#d6c9b8] bg-white/70">
@@ -70,12 +74,22 @@ export default function Home() {
             <button onClick={() => {
               setSide(s => (s === "R" ? "V" : "R"));
               setPage(1);
+              setFlipH(false); // reset flip
+              setFlipV(false); // reset flip
             }}>
               Cambia lato
             </button>
 
             <button onClick={() => setPage(p => Math.min(MAX_PAGE, p + 1))}>
               Avanti
+            </button>
+
+            <button onClick={() => setFlipH(f => !f)}>
+              Capovolgi Orizzontale
+            </button>
+
+            <button onClick={() => setFlipV(f => !f)}>
+              Capovolgi Verticale
             </button>
 
           </div>
